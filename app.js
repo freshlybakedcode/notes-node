@@ -7,16 +7,16 @@ const yargs = require('yargs');
 const notes = require('./notes.js');
 
 const argv = yargs.argv;
-var command = process.argv[2];
+var command = argv._[0];
 
 if (command === 'add') {
   notes.addNote(argv.title, argv.body);
 } else if (command === 'list') {
-  console.log('Command: list');
+  notes.getAll();
 } else if (command === 'read') {
-  console.log('Command: read');
+  notes.getNote(argv.title);
 } else if (command === 'remove') {
-  console.log('Command: remove');
+  notes.removeNote(argv.title);
 } else if (command === undefined) {
   console.log('Command: not entered');
 } else {
