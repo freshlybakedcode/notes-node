@@ -2,19 +2,25 @@ console.log('Starting notes.js');
 
 const fs = require('fs');
 
-var addNote = (title, body) => {
-
+var fetchNotes = () => {
   try {
-    notes = JSON.parse(fs.readFileSync('notes-data.json'));
+    return JSON.parse(fs.readFileSync('notes-data.json'));
   } catch (e) {
     if (e.code === 'ENOENT') {
       console.log('(No data file found - will write new file)');
     } else {
       console.log('Some kind of unknown error occurred:', e)
     }
-    var notes = [];
+    return notes = [];
   }
+};
 
+var saveNotes = (notes) => {
+  fs.writeFileSync('notes-data.json', JSON.stringify(notes));
+};
+
+var addNote = (title, body) => {
+  var notes = fetchNotes();
   var note = {
     title,
     body
@@ -26,11 +32,9 @@ var addNote = (title, body) => {
 
   if (duplicateNotes.length === 0) {
     notes.push(note);
-    fs.writeFileSync('notes-data.json', JSON.stringify(notes));
-  } else {
-    console.log(`There is already a note with the title "${note.title}"`);
+    saveNotes(notes);
+    return note;
   }
-
 };
 
 var getAll = () => {
