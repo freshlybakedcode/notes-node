@@ -42,11 +42,19 @@ var getAll = () => {
 };
 
 var getNote = (title) => {
-  console.log('Gonna get this note:', title);
+  var notes = fetchNotes();
+  return notes.filter((note) => {
+    return note.title === title;
+  });
 };
 
 var removeNote = (title) => {
-  console.log('Gonna delete this note:', title);
+  var notes = fetchNotes();
+  var notesWithoutDeletedNote = notes.filter((notes) => {
+    return notes.title !== title;
+  });
+  saveNotes(notesWithoutDeletedNote);
+  return notes.length !== notesWithoutDeletedNote.length;
 };
 
 module.exports = {
